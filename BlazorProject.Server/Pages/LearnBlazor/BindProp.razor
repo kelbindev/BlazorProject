@@ -1,0 +1,125 @@
+﻿@page "/LearnBlazor/BindProp"
+<div class="row">
+    <div class="col-6 border p-2">
+        <h3 class="text-primary">Product Summary</h3> <hr />
+        Name: @product.Name
+        <br />
+        Active: @product.IsActive
+        <br />
+        Price: @product.Price
+        <br />
+
+        Product is : @(product.IsActive?"Active":"InActive")
+        <br />
+        Property Selected: @selectedProp
+        <br />
+        @if (!String.IsNullOrEmpty(selectedProp))
+        {
+            var propertyValue = @product.ProductProperties.FirstOrDefault(o => o.Key.Equals(selectedProp));
+            if (propertyValue != null)
+            {
+                <p>Property Values: @propertyValue.Value </p>
+            }
+        }
+    </div>
+
+    <div class="col-6 border p-2">
+        <h3 class="text-primary">Product Playground</h3> <hr />
+        <div>
+            Active:
+            <input type="checkbox" @bind="@product.IsActive" @bind:event="oninput" />
+        </div>
+        <br />
+        <div>
+            Price:
+            <input type="number" @bind-value="@product.Price" @bind-value:event="oninput" />
+        </div>
+        <br />
+        <div>
+            Product Properties:
+            <select @bind="selectedProp">
+                @foreach (var prop in product.ProductProperties)
+                {
+                    <option value="@prop.Key">@prop.Key</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <table>
+            <tr>
+                <th class="col-3">Product Name</th>
+                <th class="col-3">Price</th>
+                <th class="col-3">Is Active</th>
+            </tr>
+            @foreach (var _product in products)
+            {
+                <tr>
+                    <td>@_product.Name</td>
+                    <td><input type="number" @bind-value="@_product.Price" @bind-value:event="oninput" /></td>
+                    <td><input type="checkbox" @bind-value="@_product.IsActive" @bind-value:event="oninput" checked="@(_product.IsActive?"checked":null)" /></td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="col-12">
+        @foreach (var _product in products)
+        {
+            <p>@_product.Name [@_product.Price] @(_product.IsActive?"Active":"InActive") </p>
+        }
+    </div>
+</div>
+@code {
+    private string selectedProp = "";
+
+    Demo_Product product = new()
+        {
+            Id = 1,
+            Name = "Mobile",
+            Price = 123.66M,
+            IsActive = true,
+            ProductProperties = new List<BlazorProject.Model.Model.Demo_ProductProp>()
+        {
+            new Demo_ProductProp {Id=1,Key="Color",Value="Black"},
+            new Demo_ProductProp {Id=2,Key="Flavor",Value="Blue Berry"},
+            new Demo_ProductProp {Id=3,Key="Size",Value="20oz"},
+        }
+        };
+
+    List<Demo_Product> products = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        products.Add(new()
+            {
+                Id = 1,
+                Name = "Midnight Blaze",
+                IsActive = false,
+                Price = 150.99M,
+                ProductProperties = new()
+                {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
+                     new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+                    new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
+                }
+            });
+
+        products.Add(new()
+            {
+                Id = 2,
+                Name = "Blossom Lily",
+                IsActive = true,
+                Price = 123.99M,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
+                new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
+            }
+            });
+    }
+}

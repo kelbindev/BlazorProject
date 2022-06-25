@@ -1,0 +1,36 @@
+﻿@page "/LearnBlazor/LearnBlazorJS"
+@inject IJSRuntime _jsRuntime 
+<h3>LearnBlazorJS</h3>
+
+<div class="row">
+    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test Confirm Button</button>
+    <button class="btn btn-success" @onclick="TestToastSuccess">Test Toastr Success</button>
+    <button class="btn btn-danger" @onclick="TestToastError">Test Toastr Error</button>
+</div>
+
+@if (@ConfirmResult){
+    <p>Result Confirmed</p>
+}
+else{
+    <p>Result Pending</p>
+}
+
+@code {
+    private string ConfirmMessage = "Are you sure? hontoni?";
+    private bool ConfirmResult = false;
+
+    private async Task TestConfirmBox()
+    {
+        ConfirmResult = await _jsRuntime.InvokeAsync<bool>("confirm",ConfirmMessage);
+    }
+
+    private async Task TestToastSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success"); 
+    }
+
+    private async Task TestToastError()
+    {
+        await _jsRuntime.ToastrError("Error"); 
+    }
+}

@@ -1,0 +1,31 @@
+﻿@page "/LearnBlazor/LearnRouting/{parameter1}"
+@page "/LearnBlazor/LearnRouting"
+
+@inject NavigationManager _navigationManager
+
+<h3>LearnRouting</h3>
+<p>Parameter1 : @parameter1</p>
+<p>Query String Parameter : @Param1</p>
+
+<a href="LearnBlazor/LearnRouting?Param1=Kelbin" class="btn btn-primary">Click Me</a>
+<button class="btn btn-primary" @onclick="NavigateTo">Navigate button</button>
+<button class="btn btn-primary" @onclick="LoadParameters">Load Parameters</button>
+
+@code {
+    [Parameter]
+    public string parameter1 { get; set; }
+
+    public string Param1 { get; set; }
+
+    public void LoadParameters()
+    {
+        var absoluteUri = new Uri(_navigationManager.Uri);
+        var queryParam = System.Web.HttpUtility.ParseQueryString(absoluteUri.Query);
+        Param1 = queryParam["Param1"];
+    }
+
+    public void NavigateTo()
+    {
+        _navigationManager.NavigateTo("LearnBlazor/LearnRouting?Param1=Kelbin");
+    }
+}
