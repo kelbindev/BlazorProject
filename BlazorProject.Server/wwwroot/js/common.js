@@ -9,3 +9,11 @@
         toastr.error(message, "Error", { timeOut: 5000 });
     }
 }
+
+function ShowDeleteConfirmationl() {
+    $('#deleteConfirmationModal').modal('show');
+}
+
+function HideDeleteConfirmation() {
+    $('#deleteConfirmationModal').modal('hide');
+}

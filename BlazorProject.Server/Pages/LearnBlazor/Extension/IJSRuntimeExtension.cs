@@ -18,5 +18,13 @@ namespace BlazorProject.Server.Pages.LearnBlazor.Extension
         {
             await jsRunTime.InvokeVoidAsync("showToastr", "warning", message);
         }
+        public static async ValueTask ShowDeleteConfirmation(this IJSRuntime jsRunTime)
+        {
+            await jsRunTime.InvokeVoidAsync("ShowDeleteConfirmationl");
+        }
+        public static async ValueTask HideDeleteConfirmation(this IJSRuntime jsRunTime)
+        {
+            await jsRunTime.InvokeVoidAsync("HideDeleteConfirmation");
+        }
     }
 }
